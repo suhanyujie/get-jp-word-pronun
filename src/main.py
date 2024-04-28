@@ -86,8 +86,6 @@ def gen_one_class_all_word(file_path):
             if len(info_arr) == 0:
                 continue
             tone = get_jp_tone_only(info_arr[0]);
-            if tone == '':
-                continue;
             new_line = line + ','+ tone
             # print(new_line)
             new_lines.append(new_line);
