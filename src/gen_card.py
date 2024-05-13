@@ -1,16 +1,6 @@
 import genanki
 from pathlib import Path
 
-# 模板
-my_model = genanki.BASIC_AND_REVERSED_CARD_MODEL
-# 牌组 step 1
-my_deck = genanki.Deck(2059400110, "学ぼうー日本語初中級::01")
-# 增加卡片
-# my_note = genanki.Note(model=my_model, fields=["Capital of Argentina", "Buenos Aires"])
-# my_deck.add_note(my_note)
-# 生成牌组文件
-# genanki.Package(my_deck).write_to_file("output1.apkg")
-
 
 def gen_apkg_by_word_list(model_ins, deck_ins, file_path=""):
     contents = Path(file_path).read_text(encoding="utf-8")
@@ -30,6 +20,23 @@ def gen_apkg_by_word_list(model_ins, deck_ins, file_path=""):
     return
 
 
-# step 2 调整，读取合适的单词文件
+def gen_apkg_by_class_num(class_num=1):
+    gen_apkg_by_word_list(
+        my_model, my_deck, "./data/manabou3-" + class_num + "_with_tone.txt"
+    )
+    pass
+
+
+# step 1 选择合适的课时
+class_num = 2
+# 模板
+my_model = genanki.BASIC_AND_REVERSED_CARD_MODEL
+# 牌组 step 2
+my_deck = genanki.Deck(2059400110, "学ぼうー日本語初中級::0" + class_num)
+# 增加卡片
+# my_note = genanki.Note(model=my_model, fields=["Capital of Argentina", "Buenos Aires"])
+# my_deck.add_note(my_note)
+# 生成牌组文件
+# genanki.Package(my_deck).write_to_file("output1.apkg")
 # step 3 run
-gen_apkg_by_word_list(my_model, my_deck, "./data/manabou3-1_with_tone.txt")
+gen_apkg_by_class_num(class_num)
