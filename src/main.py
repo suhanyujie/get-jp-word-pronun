@@ -269,4 +269,4 @@ def remove_extra_part(word):
 
 # gen_one_class_all_word_tone('./data/06.txt');
 # 查询《学ぼう、日本語》教材的单词
-gen_one_class_all_word_info("./data/manabou3-1.txt", q_type="moji")
+gen_one_class_all_word_info("./data/manabou3-2.txt", q_type="moji")
