@@ -1,4 +1,5 @@
 import os
+import re
 import requests
 from bs4 import BeautifulSoup
 from pathlib import Path
@@ -264,9 +265,18 @@ def remove_extra_part(word):
     if pos == -1:
         return word
     word = word[0:pos]
+    # 去除多余的括号部分（eg: `(する)`），以免影响查询的结果
+    word = fix_jp_word(word)
     return word
+
+
+# 替换单词中的 `(xxx)` 部分
+# 日文的 unicode 编码 https://symbl.cc/cn/unicode
+def fix_jp_word(word):
+    res_word = re.sub("\([\u3040-\u309f \u30a0-\u30ff \u4e00-\u9fff\・]+\)", "", word)
+    return res_word
 
 
 # gen_one_class_all_word_tone('./data/06.txt');
 # 查询《学ぼう、日本語》教材的单词
-gen_one_class_all_word_info("./data/manabou3-2.txt", q_type="moji")
+gen_one_class_all_word_info("./data/manabou3-3.txt", q_type="moji")
