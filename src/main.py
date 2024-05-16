@@ -235,7 +235,7 @@ def gen_one_class_all_word_info(file_path, q_type="moji"):
                 print("暂不支持")
                 os._exit(1)
             if word_info_list["word_mean"] == "":
-                print("未查询到。", line)
+                print("未查询到。", tmp_word)
             new_line = (
                 line
                 + ", "
@@ -279,4 +279,4 @@ def fix_jp_word(word):
 
 # gen_one_class_all_word_tone('./data/06.txt');
 # 查询《学ぼう、日本語》教材的单词
-gen_one_class_all_word_info("./data/manabou3-3.txt", q_type="moji")
+gen_one_class_all_word_info("./data/manabou3-4.txt", q_type="moji")
