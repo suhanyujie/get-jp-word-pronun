@@ -262,9 +262,8 @@ def get_new_file_path(file_path):
 # eg: remove_extra_part('~方[右の~]');
 def remove_extra_part(word):
     pos = word.find("[")
-    if pos == -1:
-        return word
-    word = word[0:pos]
+    if pos != -1:
+        word = word[0:pos]
     # 去除多余的括号部分（eg: `(する)`），以免影响查询的结果
     word = fix_jp_word(word)
     return word
@@ -279,4 +278,5 @@ def fix_jp_word(word):
 
 # gen_one_class_all_word_tone('./data/06.txt');
 # 查询《学ぼう、日本語》教材的单词
-gen_one_class_all_word_info("./data/manabou3-4.txt", q_type="moji")
+gen_one_class_all_word_info("./data/manabou3-5.txt", q_type="moji")
+
