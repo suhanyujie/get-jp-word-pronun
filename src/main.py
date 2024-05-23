@@ -3,8 +3,9 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from pathlib import Path
-import json
 import time
+from helper.query import get_jp_tone_by_moji, get_jp_word_by_moji
+import argparse
 
 
 # eg: %E5%AE%A2%E9%96%93
@@ -47,107 +48,6 @@ def get_jp_tone(word):
         return tone_str
     tone_info_str += " | " + tone_str
     return tone_info_str
-
-
-# 通过 moji 词典查询音调
-# eg: print(get_jp_tone_by_moji('~方'))
-def get_jp_tone_by_moji(word):
-    url1 = "https://api.mojidict.com/parse/functions/union-api"
-    headers = {
-        "content-type": "text/plain",
-        "origin": "https://www.mojidict.com",
-        "referer": "https://www.mojidict.com/",
-        "user-agent": "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-    }
-    postData = {
-        "_SessionToken": "r:603e6e9430f3c668ad0ffc93730a8dff",
-        "_ClientVersion": "js3.4.1",
-        "_ApplicationId": "E62VyFVLMiW7kvbtVq3p",
-        "g_os": "PCWeb",
-        "g_ver": "v4.7.7.20240327",
-        "_InstallationId": "ce0e63fe-d00a-4079-9576-545cd648eca6",
-        "functions": [
-            {"name": "search-all", "params": {"text": "", "types": [102, 106, 103]}}
-        ],
-    }
-    postData["functions"][0]["params"]["text"] = word
-    tone_info_str = ""
-    # 单词结果
-    resp = requests.post(url=url1, headers=headers, data=json.dumps(postData))
-    resp = resp.json()
-    if resp["result"]["code"] != 200:
-        return tone_info_str
-    search_res_list = resp["result"]["results"]["search-all"]["result"]["word"][
-        "searchResult"
-    ]
-    if len(search_res_list) == 0:
-        return tone_info_str
-    else:
-        # 暂时这样处理
-        search_res_list = search_res_list[0:1]
-    search_res = search_res_list[0]
-    word_title = search_res["title"]
-    word_mean = search_res["excerpt"]
-    # 方 | かた ②
-    word_info_arr = word_title.split("|")
-    if len(word_info_arr) <= 1:
-        return tone_info_str
-    else:
-        tone_info_str = word_info_arr[1]
-    return tone_info_str
-
-
-# 通过 moji 词典查询单词信息
-def get_jp_word_by_moji(word):
-    url1 = "https://api.mojidict.com/parse/functions/union-api"
-    headers = {
-        "content-type": "text/plain",
-        "origin": "https://www.mojidict.com",
-        "referer": "https://www.mojidict.com/",
-        "user-agent": "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-    }
-    postData = {
-        "_SessionToken": "r:603e6e9430f3c668ad0ffc93730a8dff",
-        "_ClientVersion": "js3.4.1",
-        "_ApplicationId": "E62VyFVLMiW7kvbtVq3p",
-        "g_os": "PCWeb",
-        "g_ver": "v4.7.7.20240327",
-        "_InstallationId": "ce0e63fe-d00a-4079-9576-545cd648eca6",
-        "functions": [
-            {"name": "search-all", "params": {"text": "", "types": [102, 106, 103]}}
-        ],
-    }
-    postData["functions"][0]["params"]["text"] = word
-    tone_info_str = {
-        "word_tone": "",
-        "word_mean": "",
-    }
-    # 单词结果
-    resp = requests.post(url=url1, headers=headers, data=json.dumps(postData))
-    resp = resp.json()
-    if resp["result"]["code"] != 200:
-        return tone_info_str
-    search_res_list = resp["result"]["results"]["search-all"]["result"]["word"][
-        "searchResult"
-    ]
-    if len(search_res_list) == 0:
-        return tone_info_str
-    else:
-        # 暂时这样处理
-        search_res_list = search_res_list[0:1]
-    res_info = {}
-    search_res = search_res_list[0]
-    word_title = search_res["title"]
-    word_mean = search_res["excerpt"]
-    res_info["word_mean"] = word_mean
-    # 方 | かた ②
-    word_info_arr = word_title.split("|")
-    if len(word_info_arr) <= 1:
-        return tone_info_str
-    else:
-        tone_info_str = word_info_arr[1]
-        res_info["word_tone"] = tone_info_str
-    return res_info
 
 
 # 只返回单词的音调
@@ -276,7 +176,24 @@ def fix_jp_word(word):
     return res_word
 
 
-# gen_one_class_all_word_tone('./data/06.txt');
-# 查询《学ぼう、日本語》教材的单词
-gen_one_class_all_word_info("./data/manabou3-5.txt", q_type="moji")
-
+parser = argparse.ArgumentParser("For --action the parser")
+parser.add_argument(
+    "-a",
+    "--action",
+    default=1,
+    type=int,
+    help="1 查询《学ぼう、日本語》教材的单词；2 查询大家的日本语中级1单词音调",
+)
+args = parser.parse_args()
+action = args.action
+match action:
+    case 1:
+        # 查询《学ぼう、日本語》教材的单词
+        gen_one_class_all_word_info("./data/manabou3-5.txt", q_type="moji")
+        pass
+    case 2:
+        gen_one_class_all_word_tone("./data/10.txt")
+        pass
+    case _:
+        pass
+print("\n--完成\--n")
