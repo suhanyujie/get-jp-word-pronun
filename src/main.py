@@ -189,7 +189,7 @@ action = args.action
 match action:
     case 1:
         # 查询《学ぼう、日本語》教材的单词
-        gen_one_class_all_word_info("./data/manabou3-5.txt", q_type="moji")
+        gen_one_class_all_word_info("./data/manabou3-6.txt", q_type="moji")
         pass
     case 2:
         gen_one_class_all_word_tone("./data/10.txt")
