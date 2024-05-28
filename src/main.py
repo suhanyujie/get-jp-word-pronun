@@ -184,12 +184,25 @@ parser.add_argument(
     type=int,
     help="1 查询《学ぼう、日本語》教材的单词；2 查询大家的日本语中级1单词音调",
 )
+parser.add_argument(
+    "-c",
+    "--classTh",
+    default=1,
+    type=int,
+    help="1 表示第1课；2 表示第 2 课，以此类推，不可超过 20",
+)
 args = parser.parse_args()
 action = args.action
+classTh = args.classTh
+if classTh == 1:
+    print("警告：请传入课程的序号，第 2 课就传 `--classTh 2`")
+    os._exit(1)
 match action:
     case 1:
         # 查询《学ぼう、日本語》教材的单词
-        gen_one_class_all_word_info("./data/manabou3-6.txt", q_type="moji")
+        gen_one_class_all_word_info(
+            "./data/manabou3-" + str(classTh) + ".txt", q_type="moji"
+        )
         pass
     case 2:
         gen_one_class_all_word_tone("./data/10.txt")
