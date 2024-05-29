@@ -48,7 +48,10 @@ def get_jp_word_by_moji(word):
     res_info = {}
     search_res = search_res_list[0]
     word_title = search_res["title"]
-    word_mean = search_res["excerpt"]
+    if "excerpt" in search_res:
+        word_mean = search_res["excerpt"]
+    else:
+        word_mean = ""
     res_info["word_mean"] = word_mean
     # 方 | かた ②
     word_info_arr = word_title.split("|")

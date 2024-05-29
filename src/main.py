@@ -161,6 +161,7 @@ def get_new_file_path(file_path):
 # 去除单词中，影响查询的多余部分
 # eg: remove_extra_part('~方[右の~]');
 def remove_extra_part(word):
+    word = word.replace("～", "")
     pos = word.find("[")
     if pos != -1:
         word = word[0:pos]
