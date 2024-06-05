@@ -28,7 +28,7 @@ def gen_apkg_by_class_num(class_num=1):
 
 
 # step 1 选择合适的课时
-class_num = "8"
+class_num = "9"
 # 模板
 my_model = genanki.BASIC_AND_REVERSED_CARD_MODEL
 # 牌组 step 2
