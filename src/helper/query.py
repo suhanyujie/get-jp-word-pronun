@@ -28,7 +28,7 @@ def get_jp_word_by_moji(word):
         ],
     }
     postData["functions"][0]["params"]["text"] = word
-    tone_info_str = {
+    word_info_dict = {
         "word_tone": "",
         "word_mean": "",
     }
@@ -36,16 +36,19 @@ def get_jp_word_by_moji(word):
     resp = requests.post(url=url1, headers=headers, data=json.dumps(postData))
     resp = resp.json()
     if resp["result"]["code"] != 200:
-        return tone_info_str
+        return word_info_dict
+    # fix: 查询特殊的英文时，会出现没有 word 字段数据
+    if "word" not in resp["result"]["results"]["search-all"]["result"]:
+        return word_info_dict
     search_res_list = resp["result"]["results"]["search-all"]["result"]["word"][
         "searchResult"
     ]
     if len(search_res_list) == 0:
-        return tone_info_str
+        return word_info_dict
     else:
         # 暂时这样处理
         search_res_list = search_res_list[0:1]
-    res_info = {}
+    res_info = word_info_dict
     search_res = search_res_list[0]
     word_title = search_res["title"]
     if "excerpt" in search_res:
@@ -56,10 +59,10 @@ def get_jp_word_by_moji(word):
     # 方 | かた ②
     word_info_arr = word_title.split("|")
     if len(word_info_arr) <= 1:
-        return tone_info_str
+        return word_info_dict
     else:
-        tone_info_str = word_info_arr[1]
-        res_info["word_tone"] = tone_info_str
+        word_info_dict = word_info_arr[1]
+        res_info["word_tone"] = word_info_dict
     return res_info
 
 

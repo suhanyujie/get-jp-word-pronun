@@ -146,7 +146,7 @@ def gen_one_class_all_word_info(file_path, q_type="moji"):
             # print(new_line);
             new_lines.append(new_line)
             f.write(new_line + "\n")
-            time.sleep(0.5)
+            time.sleep(0.3)
         f.close()
     return res_word_list
 
