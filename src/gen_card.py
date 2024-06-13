@@ -1,5 +1,6 @@
 import genanki
 from pathlib import Path
+import os
 
 
 def gen_apkg_by_word_list(model_ins, deck_ins, file_path=""):
@@ -11,6 +12,9 @@ def gen_apkg_by_word_list(model_ins, deck_ins, file_path=""):
             continue
         kanji = info_arr[0]
         furigana = info_arr[1]
+        if len(info_arr) < 3:
+            print("该行格式错误：", line)
+            continue
         meaning = info_arr[2]
         tmp_note = genanki.Note(
             model=model_ins, fields=[kanji + " | " + furigana, meaning]
@@ -28,7 +32,7 @@ def gen_apkg_by_class_num(class_num=1):
 
 
 # step 1 选择合适的课时
-class_num = "9"
+class_num = "11"
 # 模板
 my_model = genanki.BASIC_AND_REVERSED_CARD_MODEL
 # 牌组 step 2
