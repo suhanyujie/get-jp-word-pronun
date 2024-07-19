@@ -1,3 +1,4 @@
 .idea
 output1.apkg
 src/*/__pycache__
+.env.toml
