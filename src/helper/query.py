@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from pathlib import Path
 import json
-import time
+import toml
 
 
 # 通过 moji 词典查询单词信息
@@ -76,8 +76,11 @@ def get_jp_tone_by_moji(word):
         "referer": "https://www.mojidict.com/",
         "user-agent": "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
     }
+    # get config for sessToken
+    config = toml.load("./.env.toml")
+    sess_token = config["moji"]["sessToken"]
     postData = {
-        "_SessionToken": "r:603e6e9430f3c668ad0ffc93730a8dff",
+        "_SessionToken": sess_token,
         "_ClientVersion": "js3.4.1",
         "_ApplicationId": "E62VyFVLMiW7kvbtVq3p",
         "g_os": "PCWeb",
@@ -87,6 +90,7 @@ def get_jp_tone_by_moji(word):
             {"name": "search-all", "params": {"text": "", "types": [102, 106, 103]}}
         ],
     }
+
     postData["functions"][0]["params"]["text"] = word
     tone_info_str = ""
     # 单词结果
