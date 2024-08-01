@@ -84,7 +84,7 @@ def exit():
 
 
 def run():
-    gen_apkg_for_moji_collection(1)
+    gen_apkg_for_moji_collection(3)
     pass
 
 
