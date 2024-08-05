@@ -5,8 +5,21 @@ import json
 import genanki
 from typing import Optional, List, Dict
 
+g_config: Dict = {}
+
+
+def load_config() -> Dict:
+    global g_config
+    if len(g_config) == 0:
+        config = toml.load("./.env.toml")
+        g_config = config
+    else:
+        config = g_config
+    return config
+
 
 def get_word_list_of_moji_collection() -> List[Dict]:
+    global g_config
     headers = {
         "accept": "*/*",
         "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -24,7 +37,7 @@ def get_word_list_of_moji_collection() -> List[Dict]:
         "sec-fetch-site": "same-site",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0",
     }
-    config = toml.load("./.env.toml")
+    config = load_config()
     data_str = config["moji"]["dataStr"]
     data = data_str
     response = requests.post(
@@ -69,12 +82,32 @@ def gen_apkg_by_word_list(model_ins, deck_ins, word_list: List):
     return
 
 
+def get_current_collect_name() -> str:
+    config = load_config()
+    return config["moji"]["current_collect"]
+
+
+def get_current_collect_id() -> str:
+    config = load_config()
+    all_collection_dict = config["moji"]["collection_dict"]
+    dict_key_by_col_id = {v: k for k, v in all_collection_dict.items()}
+    res = dict_key_by_col_id[get_current_collect_name()]
+    print(res)
+    return res
+
+
 def gen_apkg_for_moji_collection(class_num=1):
     word_list = get_word_list_of_moji_collection()
     # 模板
     my_model = genanki.BASIC_AND_REVERSED_CARD_MODEL
     # 牌组 step 2
-    my_deck = genanki.Deck(2059400111, "ビジネス日本語::" + str(class_num))
+    if class_num == -1:
+        # col 表示 collection，收藏夹
+        cur_col_name = get_current_collect_name()
+        my_deck = genanki.Deck(2059400111, "ビジネス日本語::" + cur_col_name)
+        pass
+    else:
+        my_deck = genanki.Deck(2059400111, "ビジネス日本語::" + str(class_num))
     gen_apkg_by_word_list(my_model, my_deck, word_list)
     pass
 
@@ -84,7 +117,12 @@ def exit():
 
 
 def run():
-    gen_apkg_for_moji_collection(3)
+    gen_apkg_for_moji_collection(-1)
+    pass
+
+
+def test():
+    get_current_collect_id()
     pass
 
 
