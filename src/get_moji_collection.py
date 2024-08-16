@@ -146,7 +146,7 @@ def exit():
 def run():
     arg_arr = sys.argv
     type_val = "default"
-    if len(arg_arr) >= 1:
+    if len(arg_arr) > 1:
         type_val = get_arg_by_key(arg_arr[1], "type")
     match type_val:
         case "all":
