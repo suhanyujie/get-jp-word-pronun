@@ -55,7 +55,7 @@ class_num = "11"
 # 模板
 my_model = DIY_MODEL
 # 牌组 step 2
-my_deck = genanki.Deck(2059400110, "学ぼうー日本語中級::漢字1-7")
+my_deck = genanki.Deck(2059400110, "学ぼうー日本語中級::漢字7-10")
 # 增加卡片
 # my_note = genanki.Note(model=my_model, fields=["Capital of Argentina", "Buenos Aires"])
 # my_deck.add_note(my_note)
