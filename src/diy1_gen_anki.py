@@ -34,11 +34,11 @@ def gen_apkg_by_word_list(model_ins, deck_ins, file_path=""):
     contents = Path(file_path).read_text(encoding="utf-8")
     line_arr = contents.splitlines()
     for line in line_arr:
-        info_arr = line.split(" - ")
+        info_arr = line.split("-")
         if len(info_arr) == 0:
             continue
-        word_part = info_arr[0]
-        meaning = info_arr[1]
+        word_part = info_arr[0].strip()
+        meaning = info_arr[1].strip()
         tmp_note = genanki.Note(model=model_ins, fields=[word_part, meaning])
         deck_ins.add_note(tmp_note)
     genanki.Package(deck_ins).write_to_file("output1.apkg")
@@ -58,7 +58,8 @@ my_model = DIY_MODEL
 deck1 = "学ぼうー日本語中級::漢字1-7"
 deck7 = "学ぼうー日本語中級::漢字7-10"
 deck21 = "学ぼうー日本語中級::語彙21-33"
-my_deck = genanki.Deck(2059400110, deck7)
+deck34 = "学ぼうー日本語中級::語彙34-40"
+my_deck = genanki.Deck(2059400110, deck34)
 # 增加卡片
 # my_note = genanki.Note(model=my_model, fields=["Capital of Argentina", "Buenos Aires"])
 # my_deck.add_note(my_note)
