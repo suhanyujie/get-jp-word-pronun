@@ -46,7 +46,7 @@ def gen_apkg_by_word_list(model_ins, deck_ins, file_path=""):
 
 
 def gen_apkg_by_class_num():
-    gen_apkg_by_word_list(my_model, my_deck, "./data/manabou-kanji/tmp20241107.txt")
+    gen_apkg_by_word_list(my_model, my_deck, "./data/manabou-kanji/tmp20241108.txt")
     pass
 
 
@@ -64,7 +64,7 @@ deck35 = "学ぼうー日本語中級::語彙35"
 deck36 = "学ぼうー日本語中級::語彙36"
 deck37 = "学ぼうー日本語中級::語彙37"
 
-my_deck = genanki.Deck(2059400110, deck37)
+my_deck = genanki.Deck(2059400110, deckKanji9)
 # 增加卡片
 # my_note = genanki.Note(model=my_model, fields=["Capital of Argentina", "Buenos Aires"])
 # my_deck.add_note(my_note)
