@@ -46,7 +46,7 @@ def gen_apkg_by_word_list(model_ins, deck_ins, file_path=""):
 
 
 def gen_apkg_by_class_num():
-    gen_apkg_by_word_list(my_model, my_deck, "./data/manabou-kanji/tmp20241113.txt")
+    gen_apkg_by_word_list(my_model, my_deck, "./data/manabou-kanji/tmp20241114.txt")
     pass
 
 
