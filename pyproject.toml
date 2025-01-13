@@ -8,7 +8,7 @@ dependencies = [
     "argcomplete==3.1.4",
     "attrs==23.2.0",
     "babel==2.10.3",
-    "bcc==0.29.1",
+    "bcc==0.1.10",
     "blinker==1.7.0",
     "brlapi==0.8.5",
     "certifi==2023.11.17",
