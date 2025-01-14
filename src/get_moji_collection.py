@@ -143,6 +143,8 @@ def exit():
     os._exit(1)
 
 
+# single collection: python src/get_moji_collection.py  
+# all collections: python src/get_moji_collection.py --type=all
 def run():
     arg_arr = sys.argv
     type_val = "default"
